@@ -12,6 +12,16 @@ import UIKit
   @IBInspectable var rank: Int = 5 { didSet { setNeedsDisplay(); setNeedsLayout() } }
   @IBInspectable var suit: String = "♥️" { didSet { setNeedsDisplay(); setNeedsLayout() } }
   @IBInspectable var isFaceUp = true { didSet { setNeedsDisplay(); setNeedsLayout() } }
+  @IBInspectable var faceCardScale: CGFloat = SizeRatio.faceCardImageSizeToBoundsSize { didSet { setNeedsDisplay() } }
+
+  @objc func adjustFaceCardScale(byHandlingGestureRecognizedBy recognizer: UIPinchGestureRecognizer) {
+    switch recognizer.state {
+    case .changed, .ended:
+      faceCardScale *= recognizer.scale
+      recognizer.scale = 1
+    default: break
+    }
+  }
 
   // aligns the card rank and suit
   private func centeredAttributedString(_ string: String, fontSize: CGFloat) -> NSAttributedString {
@@ -119,7 +129,7 @@ import UIKit
       if let faceCardImage = UIImage(named: rankString + suit,
                                      in: Bundle(for: self.classForCoder),
                                      compatibleWith: traitCollection) {
-        faceCardImage.draw(in: bounds.zoom(by: SizeRatio.faceCardImageSizeToBoundsSize))
+        faceCardImage.draw(in: bounds.zoom(by: faceCardScale))
       } else {
         drawPips()
       }

@@ -18,6 +18,7 @@
                             <view opaque="NO" contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="kr5-z1-t0R" customClass="PlayingCardView" customModule="PlayingCards" customModuleProvider="target">
                                 <rect key="frame" x="16" y="147.5" width="382" height="611"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="kr5-z1-t0R" secondAttribute="height" multiplier="5:8" id="JQJ-i2-4vs"/>
                                     <constraint firstAttribute="width" priority="250" constant="1000" id="r9y-eP-T5f"/>
@@ -28,10 +29,14 @@
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="string" keyPath="suit" value="♥️"/>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="uMN-4J-uNA" appends="YES" id="Zau-ux-dfF"/>
+                                </connections>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="kr5-z1-t0R" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="96I-oO-uSO"/>
                             <constraint firstItem="kr5-z1-t0R" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="EX6-3c-8am"/>
@@ -41,8 +46,16 @@
                             <constraint firstItem="kr5-z1-t0R" firstAttribute="top" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="16" id="q55-zP-ycU"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="playingCardView" destination="kr5-z1-t0R" id="XcG-mX-snm"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="uMN-4J-uNA">
+                    <connections>
+                        <action selector="flipCard:" destination="BYZ-38-t0r" id="Rrx-5c-ruL"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="28.985507246376812" y="59.598214285714285"/>
         </scene>
