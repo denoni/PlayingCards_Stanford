@@ -7,11 +7,11 @@
 
 import UIKit
 
-class PlayingCardView: UIView {
+@IBDesignable class PlayingCardView: UIView {
 
-  var rank: Int = 5 { didSet { setNeedsDisplay(); setNeedsLayout() } }
-  var suit: String = "♥️" { didSet { setNeedsDisplay(); setNeedsLayout() } }
-  var isFaceUp = false { didSet { setNeedsDisplay(); setNeedsLayout() } }
+  @IBInspectable var rank: Int = 5 { didSet { setNeedsDisplay(); setNeedsLayout() } }
+  @IBInspectable var suit: String = "♥️" { didSet { setNeedsDisplay(); setNeedsLayout() } }
+  @IBInspectable var isFaceUp = true { didSet { setNeedsDisplay(); setNeedsLayout() } }
 
   // aligns the card rank and suit
   private func centeredAttributedString(_ string: String, fontSize: CGFloat) -> NSAttributedString {
@@ -120,7 +120,11 @@ class PlayingCardView: UIView {
         drawPips()
       }
     } else {
-      if let cardBackImage = UIImage(named: "cardback") {
+      // the `in:` and `compatibleWith` is just for the rank and suit
+      // work properly in the interface builder
+      if let cardBackImage = UIImage(named: "cardback",
+                                     in: Bundle(for: self.classForCoder),
+                                     compatibleWith: traitCollection) {
         cardBackImage.draw(in: bounds)
       }
     }
