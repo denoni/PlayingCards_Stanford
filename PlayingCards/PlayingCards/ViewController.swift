@@ -25,6 +25,20 @@ class ViewController: UIViewController {
       let card = cards.remove(at: Int.random(in: 0 ..< cards.count))
       cardView.rank = card.rank.order
       cardView.suit = card.suit.rawValue
+      cardView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(flipCard(_:))))
+    }
+  }
+
+  @objc func flipCard(_ recognizer: UITapGestureRecognizer) {
+    switch recognizer.state {
+    case .ended:
+      if let chosenCardView = recognizer.view as? PlayingCardView {
+        UIView.transition(with: chosenCardView,
+                          duration: 0.5,
+                          options: [.transitionFlipFromLeft],
+                          animations: { chosenCardView.isFaceUp = !chosenCardView.isFaceUp })
+      }
+    default: break
     }
   }
 
