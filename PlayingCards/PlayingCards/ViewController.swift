@@ -21,7 +21,6 @@ class ViewController: UIViewController {
       cards += [card, card]
     }
     for cardView in playingCardViews {
-      cardView.isFaceUp = true
       let card = cards.remove(at: Int.random(in: 0 ..< cards.count))
       cardView.rank = card.rank.order
       cardView.suit = card.suit.rawValue
@@ -30,28 +29,66 @@ class ViewController: UIViewController {
   }
 
   private var currentFaceUpCardViews: [PlayingCardView] {
-    return playingCardViews.filter { $0.isFaceUp && !$ 0.isHidden }
+    return playingCardViews.filter { $0.isFaceUp && !$0.isHidden }
+  }
+
+  private var faceUpCardsViewMatch: Bool {
+    return currentFaceUpCardViews.count == 2 &&
+    (currentFaceUpCardViews[0].rank == currentFaceUpCardViews[1].rank) &&
+    (currentFaceUpCardViews[0].suit == currentFaceUpCardViews[1].suit)
   }
 
   @objc func flipCard(_ recognizer: UITapGestureRecognizer) {
     switch recognizer.state {
     case .ended:
       if let chosenCardView = recognizer.view as? PlayingCardView {
-        UIView.transition(with: chosenCardView,
-                          duration: 0.5,
-                          options: [.transitionFlipFromLeft],
-                          animations: { chosenCardView.isFaceUp = !chosenCardView.isFaceUp },
-                          completion: { finished in
-          // If there are two cards faced up, flip all cards that are currently faced up
-          if self.currentFaceUpCardViews.count == 2 {
-            self.currentFaceUpCardViews.forEach { cardView in
-              UIView.transition(with: cardView,
-                                duration: 0.5,
-                                options: [.transitionFlipFromLeft],
-                                animations: { cardView.isFaceUp = false })
+        UIView.transition(
+          with: chosenCardView,
+          duration: 0.5,
+          options: [.transitionFlipFromLeft],
+          animations: { chosenCardView.isFaceUp = !chosenCardView.isFaceUp },
+          completion: { _ in
+            if self.faceUpCardsViewMatch {
+              UIViewPropertyAnimator.runningPropertyAnimator(
+                withDuration: 0.5,
+                delay: 0,
+                options: [],
+                animations: {
+                  self.currentFaceUpCardViews.forEach {
+                    $0.transform = CGAffineTransform.identity.scaledBy(x: 2, y: 2)
+                  }
+                },
+                completion: { _ in
+                  UIViewPropertyAnimator.runningPropertyAnimator(
+                    withDuration: 0.7,
+                    delay: 0,
+                    options: [],
+                    animations: {
+                      self.currentFaceUpCardViews.forEach {
+                        $0.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
+                        $0.alpha = 0
+                      }
+                    },
+                    completion: { _ in
+                      self.currentFaceUpCardViews.forEach {
+                        $0.isHidden = true
+                        $0.alpha = 1
+                        $0.transform = .identity
+                      }
+                    })
+                })
             }
-          }
-        })
+            // If there are two cards faced up, flip all cards that are currently faced up
+            else if self.currentFaceUpCardViews.count == 2 {
+              self.currentFaceUpCardViews.forEach { cardView in
+                UIView.transition(
+                  with: cardView,
+                  duration: 0.5,
+                  options: [.transitionFlipFromLeft],
+                  animations: { cardView.isFaceUp = false })
+              }
+            }
+          })
       }
     default: break
     }
