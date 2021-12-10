@@ -22,6 +22,12 @@
                                     <constraint firstAttribute="width" secondItem="kr5-z1-t0R" secondAttribute="height" multiplier="5:8" id="JQJ-i2-4vs"/>
                                     <constraint firstAttribute="width" priority="250" constant="1000" id="r9y-eP-T5f"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="rank">
+                                        <integer key="value" value="12"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="suit" value="♥️"/>
+                                </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>

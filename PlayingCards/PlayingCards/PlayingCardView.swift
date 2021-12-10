@@ -114,7 +114,11 @@ import UIKit
     roundedRect.fill()
 
     if isFaceUp {
-      if let faceCardImage = UIImage(named: rankString + suit) {
+      // the `in:` and `compatibleWith` is just for the rank and suit
+      // work properly in the interface builder
+      if let faceCardImage = UIImage(named: rankString + suit,
+                                     in: Bundle(for: self.classForCoder),
+                                     compatibleWith: traitCollection) {
         faceCardImage.draw(in: bounds.zoom(by: SizeRatio.faceCardImageSizeToBoundsSize))
       } else {
         drawPips()
