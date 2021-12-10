@@ -11,7 +11,7 @@ import UIKit
 
   @IBInspectable var rank: Int = 5 { didSet { setNeedsDisplay(); setNeedsLayout() } }
   @IBInspectable var suit: String = "♥️" { didSet { setNeedsDisplay(); setNeedsLayout() } }
-  @IBInspectable var isFaceUp = true { didSet { setNeedsDisplay(); setNeedsLayout() } }
+  @IBInspectable var isFaceUp = false { didSet { setNeedsDisplay(); setNeedsLayout() } }
   @IBInspectable var faceCardScale: CGFloat = SizeRatio.faceCardImageSizeToBoundsSize { didSet { setNeedsDisplay() } }
 
   @objc func adjustFaceCardScale(byHandlingGestureRecognizedBy recognizer: UIPinchGestureRecognizer) {
