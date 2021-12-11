@@ -47,6 +47,9 @@ class ViewController: UIViewController {
     switch recognizer.state {
     case .ended:
       if let chosenCardView = recognizer.view as? PlayingCardView {
+        // Remove the behaviours from card when the card is flipped (just to stop keep it still)
+        cardBehaviour.removeItem(chosenCardView)
+
         UIView.transition(
           with: chosenCardView,
           duration: 0.5,
@@ -90,7 +93,16 @@ class ViewController: UIViewController {
                   with: cardView,
                   duration: 0.5,
                   options: [.transitionFlipFromLeft],
-                  animations: { cardView.isFaceUp = false })
+                  animations: { cardView.isFaceUp = false },
+                  // Add back the card behaviour that were previously removed
+                  completion: { _ in self.cardBehaviour.addItem(cardView) })
+              }
+            }
+            // If the user flips back the card
+            else {
+              if !chosenCardView.isFaceUp {
+                // Add back the card behaviour that were previously removed
+                self.cardBehaviour.addItem(chosenCardView)
               }
             }
           })

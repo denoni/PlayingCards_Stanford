@@ -49,4 +49,9 @@ class CardBehaviour: UIDynamicBehavior {
     push(item)
   }
 
+  func removeItem(_ item: UIDynamicItem) {
+    collisionBehaviour.removeItem(item)
+    itemBehaviour.removeItem(item)
+  }
+
 }
