@@ -36,8 +36,25 @@ class CardBehaviour: UIDynamicBehavior {
 
   private func push(_ item: UIDynamicItem) {
     let push = UIPushBehavior(items: [item], mode: .instantaneous)
-    push.angle = CGFloat.random(in: 0...(2 * CGFloat.pi))
-    push.magnitude = 1.0 + CGFloat.random(in: 0...2)
+
+    // To make the card have a bias towards the center
+    if let referenceBounds = dynamicAnimator?.referenceView?.bounds {
+      let center = CGPoint(x: referenceBounds.midX, y: referenceBounds.midY)
+      switch (item.center.x, item.center.y) {
+      case let (x, y) where x < center.x && y < center.y:
+        push.angle = CGFloat.random(in: 0...(CGFloat.pi / 2))
+      case let (x, y) where x > center.x && y < center.y:
+        push.angle = CGFloat.pi - CGFloat.random(in: 0...(CGFloat.pi / 2))
+      case let (x, y) where x < center.x && y > center.y:
+        push.angle = CGFloat.random(in: (-CGFloat.pi / 2)...0)
+      case let (x, y) where x > center.x && y > center.y:
+        push.angle = CGFloat.pi + CGFloat.random(in: 0...(CGFloat.pi / 2))
+      default:
+        push.angle = CGFloat.random(in: 0...(CGFloat.pi * 2))
+      }
+    }
+
+    push.magnitude = 2.0 + CGFloat.random(in: 0...2)
     // change the push action just so that when the push is called, we remove the behaviour right after it was already used
     push.action = { [unowned push, weak self] in self?.removeChildBehavior(push) }
     addChildBehavior(push)
