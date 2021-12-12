@@ -98,6 +98,7 @@ import UIKit
 
   // To if some trait changes(e.g. user's accessibility font size) it redraws
   override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    super.traitCollectionDidChange(previousTraitCollection)
     setNeedsDisplay()
     setNeedsLayout()
   }
