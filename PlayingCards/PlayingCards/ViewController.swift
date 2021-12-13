@@ -23,7 +23,7 @@ class ViewController: UIViewController {
       CMMotionManager.shared.startAccelerometerUpdates(to: .main,
                                                        withHandler: { (data, error) in
         if let x = data?.acceleration.x, let y = data?.acceleration.y {
-          self.cardBehaviour.gravityBehaviour.gravityDirection = CGVector(dx: x, dy: y)
+          self.cardBehaviour.gravityBehaviour.gravityDirection = CGVector(dx: x, dy: -y)
         }
       })
     }
