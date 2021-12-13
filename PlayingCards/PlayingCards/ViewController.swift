@@ -29,6 +29,12 @@ class ViewController: UIViewController {
     }
   }
 
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    cardBehaviour.gravityBehaviour.magnitude = 0
+    CMMotionManager.shared.stopAccelerometerUpdates()
+  }
+
   @IBOutlet var playingCardViews: [PlayingCardView]!
 
   override func viewDidLoad() {
