@@ -13,6 +13,7 @@ class CardBehaviour: UIDynamicBehavior {
     super.init()
     addChildBehavior(collisionBehaviour)
     addChildBehavior(itemBehaviour)
+    addChildBehavior(gravityBehaviour)
   }
 
   convenience init(in animator: UIDynamicAnimator) {
@@ -31,6 +32,12 @@ class CardBehaviour: UIDynamicBehavior {
     behaviour.allowsRotation = false
     behaviour.elasticity = 1
     behaviour.resistance = 0
+    return behaviour
+  }()
+
+  lazy var gravityBehaviour: UIGravityBehavior = {
+    let behaviour = UIGravityBehavior()
+    behaviour.magnitude = 0
     return behaviour
   }()
 
@@ -63,12 +70,14 @@ class CardBehaviour: UIDynamicBehavior {
   func addItem(_ item: UIDynamicItem) {
     collisionBehaviour.addItem(item)
     itemBehaviour.addItem(item)
+    gravityBehaviour.addItem(item)
     push(item)
   }
 
   func removeItem(_ item: UIDynamicItem) {
     collisionBehaviour.removeItem(item)
     itemBehaviour.removeItem(item)
+    gravityBehaviour.removeItem(item)
   }
 
 }
